@@ -10,17 +10,14 @@ namespace FiddlerUITests
         string testUrl = "https://dashboard.getfiddler.com/";
 
         IWebDriver driver;
+        IWebElement subscriptionCard;
 
         [SetUp]
         public void Setup()
         {
-            driver = new ChromeDriver();
+            driver = new ChromeDriver(@"C:\Dev\FiddlerTests\localDependancies");
             driver.Manage().Window.Maximize();
-        }
 
-        [Test]
-        public void Test1()
-        {
             driver.Url = testUrl;
 
             System.Threading.Thread.Sleep(2000);
@@ -38,9 +35,13 @@ namespace FiddlerUITests
             //Waits for Dashboard screen to load
             System.Threading.Thread.Sleep(10000);
 
-            var subscriptionCard = driver
+            subscriptionCard = driver
                 .FindElement(By.CssSelector("fdl-card[label=Subscriptions]"));
+        }
 
+        [Test]
+        public void Test1()
+        {
             var tableHeaders = subscriptionCard
                 .FindElement(By.TagName("thead"))
                 .FindElements(By.TagName("th"));
@@ -60,6 +61,12 @@ namespace FiddlerUITests
             Assert.AreEqual(tableValues[2].Text, "1");
             Assert.AreEqual(tableValues[3].Text, "-");
             Assert.AreEqual(tableValues[4].FindElement(By.TagName("a")).Text, "Manage Subscription");
+        }
+
+        [Test]
+        public void Test2()
+        {
+            subscriptionCard.FindElement(By.TagName("tbody")).FindElements(By.TagName("td"))[4].FindElement(By.TagName("a")).Click();
         }
     }
 }
