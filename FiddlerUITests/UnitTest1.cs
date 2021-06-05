@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System.Linq;
 
 namespace FiddlerUITests
 {
@@ -67,6 +68,22 @@ namespace FiddlerUITests
         public void Test2()
         {
             subscriptionCard.FindElement(By.TagName("tbody")).FindElements(By.TagName("td"))[4].FindElement(By.TagName("a")).Click();
+            System.Threading.Thread.Sleep(7000);
+            bool isSubPagePresent = driver.FindElements(By.TagName("app-view-subscription")).Count == 1;
+
+            Assert.IsTrue(isSubPagePresent);
+
+            driver
+                .FindElement(By.XPath("/html/body/app-root/div/div/div/app-view-subscription/div/fdl-card/div[2]/div[3]/div[2]/a"))
+                .Click();
+            System.Threading.Thread.Sleep(7000);
+
+            bool isSaveCardsTabActive = driver
+                .FindElement(By.XPath("/html/body/app-root/div/fdl-tabstrip/kendo-tabstrip/ul/li[4]"))
+                .GetAttribute("class")
+                .Split(" ")
+                .Any(className => className == "k-state-active");
+            Assert.IsTrue(isSaveCardsTabActive);
         }
     }
 }
