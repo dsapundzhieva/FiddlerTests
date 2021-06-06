@@ -2,6 +2,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.Linq;
+using FiddlerUITests.Utils;
 
 namespace FiddlerUITests
 {
@@ -28,13 +29,14 @@ namespace FiddlerUITests
             //Clicks the Sing In button
             driver.FindElement(By.XPath("//button/span[text()='Existing User?']")).Click();
             //Fills the email
-            driver.FindElement(By.Id("usernameField")).SendKeys("desislava.sapundzhieva@gmail.com");
+            driver.FindElement(By.Id("usernameField")).SendKeys("");
             //Fills the password
-            driver.FindElement(By.Id("passwordField")).SendKeys("Password@123");
+            driver.FindElement(By.Id("passwordField")).SendKeys("");
             //Submits the form
             driver.FindElement(By.XPath("//button[text()='Sign In']")).Submit();
             //Waits for Dashboard screen to load
-            System.Threading.Thread.Sleep(10000);
+            WaitUntil.VisibilityOfElement(driver, By.CssSelector("app-account-overview"));
+            WaitUntil.LoaderDisappears(driver);
 
             subscriptionCard = driver
                 .FindElement(By.CssSelector("fdl-card[label=Subscriptions]"));
@@ -47,6 +49,7 @@ namespace FiddlerUITests
                 .FindElement(By.TagName("thead"))
                 .FindElements(By.TagName("th"));
 
+            //Verify parameters describing user’s license plan details are displayed correctly
             Assert.AreEqual(tableHeaders.Count, 5);
             Assert.AreEqual(tableHeaders[0].Text, "Product");
             Assert.AreEqual(tableHeaders[1].Text, "Current Plan");
@@ -67,27 +70,32 @@ namespace FiddlerUITests
         [Test]
         public void Test2()
         {
-            subscriptionCard.FindElement(By.TagName("tbody")).FindElements(By.TagName("td"))[4].FindElement(By.TagName("a")).Click();
+            //Click on Manage Subscription field
+            subscriptionCard.FindElement(By.XPath("//a[text()='Manage Subscription']")).Click();
 
             //Waits for Dashboard screen to load
-            System.Threading.Thread.Sleep(7000);
-            bool isSubPagePresent = driver.FindElements(By.TagName("app-view-subscription")).Count == 1;
+            WaitUntil.VisibilityOfElement(driver, By.CssSelector("app-view-subscription"));
+            WaitUntil.LoaderDisappears(driver);
 
+            //Verify subscription page is opened
+            bool isSubPagePresent = driver.FindElements(By.TagName("app-view-subscription")).Count == 1;
             Assert.IsTrue(isSubPagePresent);
 
-            driver
-                .FindElement(By.XPath("/html/body/app-root/div/div/div/app-view-subscription/div/fdl-card/div[2]/div[3]/div[2]/a"))
-                .Click();
+            //Clicks on the ‘ADD’ button
+            var addButton = driver.FindElement(By.XPath("//a[text()='Add']"));
+            addButton.Click();
 
             //Waits for Dashboard screen to load
-            System.Threading.Thread.Sleep(7000);
+            WaitUntil.VisibilityOfElement(driver, By.CssSelector("app-view-subscription"));
+            WaitUntil.LoaderDisappears(driver);
 
-            bool isSaveCardsTabActive = driver
-                .FindElement(By.XPath("/html/body/app-root/div/fdl-tabstrip/kendo-tabstrip/ul/li[4]"))
+            //Verify Saved Cards tab is opened
+            bool isSavedCardsTabActive = driver
+                .FindElement(By.XPath("//li[@id='k-tabstrip-tab-3']"))
                 .GetAttribute("class")
                 .Split(" ")
                 .Any(className => className == "k-state-active");
-            Assert.IsTrue(isSaveCardsTabActive);
+            Assert.IsTrue(isSavedCardsTabActive);
         }
 
         [Test]
@@ -95,7 +103,10 @@ namespace FiddlerUITests
         {
             //Click Upgrade to Pro now
             driver.FindElement(By.CssSelector("button[title=\"UPGRADE TO PRO NOW\"]")).Click();
-            System.Threading.Thread.Sleep(7000);
+
+            WaitUntil.VisibilityOfElement(driver, By.CssSelector("app-process-order"));
+            WaitUntil.LoaderDisappears(driver);
+
             bool isProcessOrderPagePresent = driver.FindElements(By.TagName("app-process-order")).Count == 1;
             Assert.IsTrue(isProcessOrderPagePresent);
 
@@ -129,7 +140,7 @@ namespace FiddlerUITests
             driver
                 .FindElement(By.XPath("//button[text()='Next']")).Click();
 
-            System.Threading.Thread.Sleep(7000);
+            WaitUntil.LoaderDisappears(driver);
 
             bool isCardDetailsFormPresent = driver
                 .FindElement(By.CssSelector("fdl-card"))
