@@ -6,7 +6,9 @@ namespace FiddlerUITests.Tests
 {
     class BaseTest
     {
-        string testUrl = "https://dashboard.getfiddler.com/";
+        private string testUrl = "https://dashboard.getfiddler.com/";
+        private string email = "";
+        private string password = "";
 
         protected ChromeDriver driver;
 
@@ -23,8 +25,8 @@ namespace FiddlerUITests.Tests
 
             createAccountPage.AcceptCoockiesButton();
             createAccountPage.GoToSignIn();
-            loginPage.EmailField.SendKeys("");
-            loginPage.PassworField.SendKeys("");
+            loginPage.EmailField.SendKeys(email);
+            loginPage.PassworField.SendKeys(password);
             loginPage.SubmitSignInForm();
         }
 
