@@ -23,7 +23,6 @@ namespace FiddlerUITests.Pages
         public void AddPayment()
         {
             AddPaymentButton.Click();
-            WaitUntil.VisibilityOfElement(driver, By.CssSelector("app-view-subscription"));
             WaitUntil.LoaderDisappears(driver);
         }
     }

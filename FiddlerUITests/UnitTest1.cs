@@ -73,6 +73,7 @@ namespace FiddlerUITests
         {
             ApplicationPage applicationPage = new ApplicationPage(driver);
             ProcessOrderPage processOrderPage = new ProcessOrderPage(driver);
+            PaymentDetailsPage paymentDetailsPage = new PaymentDetailsPage(driver);
 
             applicationPage.UpgradeToPro();
 
@@ -83,42 +84,12 @@ namespace FiddlerUITests
 
             Assert.IsTrue(processOrderPage.IsRadioButtonActive("Pay Monthly"));
 
-            var choosePlan = driver
-                .FindElement(By.CssSelector("app-choose-plan"));
-            var increaseArrow = choosePlan
-                .FindElement(By.CssSelector("form"))
-                .FindElement(By.CssSelector("kendo-numerictextbox"))
-                .FindElement(By.CssSelector("span[title=\"Increase value\"]"));
-            increaseArrow.Click();
-            increaseArrow.Click();
+            processOrderPage.IncreaseSeats(3);
+            processOrderPage.ClickNextToGoToPaymentDetailsPage();
 
-            //Clicks Next Button
-            driver
-                .FindElement(By.XPath("//button[text()='Next']")).Click();
-
-            WaitUntil.LoaderDisappears(driver);
-
-            bool isCardDetailsFormPresent = driver
-                .FindElement(By.CssSelector("fdl-card"))
-                .FindElement(By.CssSelector("app-pay-order"))
-                .FindElement(By.CssSelector("div.k-vbox.payment-details"))
-                .FindElements(By.CssSelector("div.k-vbox.details-container")).Count == 1;
-
-            //Verify the card details form is opened
-            Assert.IsTrue(isCardDetailsFormPresent);
-
-            //Verify the total charge amount is correct
-            var totalChargeAmount = driver
-                .FindElement(By.XPath("//h3[text()='Payment Details ']"));
-
-            //Verify the total charge amount is correct
-            Assert.AreEqual(totalChargeAmount.Text, "Payment Details (Total Charge: $36.00)");
-
-            var payButtons = driver
-                .FindElements(By.XPath("//button//span[text()='Pay $36']"));
-
-            //Verify the total charge amount is correct
-            Assert.AreEqual(payButtons.Count, 1);
+            Assert.IsTrue(paymentDetailsPage.IsPaymentDetailPagePresent());
+            Assert.IsTrue(paymentDetailsPage.HeaderAmountMatches("$36.00"));
+            Assert.IsTrue(paymentDetailsPage.ButtonAmountMatches("$36"));
         }
     }
 }

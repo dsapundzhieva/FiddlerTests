@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using FiddlerUITests.Utils;
+using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,12 @@ namespace FiddlerUITests.Pages
 
         public bool IsProcessOrderPagePresent() => ProcessOrderElements.Count == 1;
 
+        [FindsBy(How = How.CssSelector, Using = "span[title=\"Increase value\"]")]
+        private IWebElement IncreaseButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//button[text()='Next']")]
+        private IWebElement NextButton { get; set; }
+
         public bool IsRadioButtonActive(string text) =>
             FindPaymentPeriodRadioByText(text)
                     .GetAttribute("class")
@@ -37,6 +44,20 @@ namespace FiddlerUITests.Pages
                     .First(radio =>
                             radio.FindElement(By.CssSelector("div.plan-details"))
                                  .FindElements(By.CssSelector("div"))[0].Text.Contains(text));
+
+        public void IncreaseSeats(int numberOfSeats)
+        {
+            for (int i = 1; i < numberOfSeats; i++)
+            {
+                IncreaseButton.Click();
+            }
+        }
+
+        public void ClickNextToGoToPaymentDetailsPage()
+        {
+            NextButton.Click();
+            WaitUntil.LoaderDisappears(driver);
+        }
 
     }
 }
