@@ -27,6 +27,15 @@ namespace FiddlerUITests.Pages
         [FindsBy(How = How.XPath, Using = "//button[text()='Next']")]
         private IWebElement NextButton { get; set; }
 
+        [FindsBy(How = How.CssSelector, Using = "div.k-vbox.details-container")]
+        private IList<IWebElement> PaymentDetailElements { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//h3[text()='Payment Details ']")]
+        private IWebElement HeaderChargeAmount { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//button[contains(@title, 'Pay')]")]
+        private IWebElement ButtonPay { get; set; }
+
         public bool IsRadioButtonActive(string text) =>
             FindPaymentPeriodRadioByText(text)
                     .GetAttribute("class")
@@ -53,11 +62,16 @@ namespace FiddlerUITests.Pages
             }
         }
 
-        public void ClickNextToGoToPaymentDetailsPage()
+        public void ClickNextToGoToPaymentDetails()
         {
             NextButton.Click();
             WaitUntil.LoaderDisappears(driver);
         }
 
+        public bool IsPaymentDetailsPresent() => PaymentDetailElements.Count == 1;
+
+        public bool HeaderAmountMatches(string totalChargeAmount) => HeaderChargeAmount.FindElement(By.CssSelector("span>span")).Text == totalChargeAmount;
+
+        public bool ButtonAmountMatches(string totalChargeAmount) => ButtonPay.Text.Split(" ")[1] == totalChargeAmount;
     }
 }

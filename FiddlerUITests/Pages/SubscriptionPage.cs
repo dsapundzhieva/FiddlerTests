@@ -22,8 +22,8 @@ namespace FiddlerUITests.Pages
 
         public void AddPayment()
         {
+            WaitUntil.ElementIsClickable(driver, AddPaymentButton);
             AddPaymentButton.Click();
-            WaitUntil.LoaderDisappears(driver);
         }
     }
 }

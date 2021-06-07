@@ -12,7 +12,7 @@ namespace FiddlerUITests.Pages
         {
 
         }
-
+ 
         [FindsBy(How = How.XPath, Using = "//fdl-card[@label='Subscriptions']//thead//th")]
         public IList<IWebElement> TableHeaders { get; set; }
 
@@ -20,7 +20,7 @@ namespace FiddlerUITests.Pages
         [FindsBy(How = How.XPath, Using = "//fdl-card[@label='Subscriptions']//tbody//td")]
         public IList<IWebElement> TableValues { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//fdl-card[@label='Subscriptions']//a[text()='Manage Subscription']")]
+        [FindsBy(How = How.XPath, Using = "//a[text()='Manage Subscription']")]
         private IWebElement ManageSubscriptionButton { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//kendo-tabstrip//ul[@role='tablist']")]
