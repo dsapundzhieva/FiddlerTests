@@ -7,15 +7,15 @@ namespace FiddlerUITests.Tests
     class BaseTest
     {
         private string testUrl = "https://dashboard.getfiddler.com/";
-        private string email = "";
-        private string password = "";
+        private string email = "testfiddler@yahoo.com";
+        private string password = "testfiddler@123";
 
         protected ChromeDriver driver;
 
         [SetUp]
         public void Setup()
         {
-            driver = new ChromeDriver(@"C:\Dev\FiddlerTests\localDependancies");
+            driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
             driver.Url = testUrl;
 
