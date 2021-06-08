@@ -9,7 +9,6 @@ namespace FiddlerUITests.Pages
     {
         public SubscriptionPage(IWebDriver driver): base(driver)
         {
-
         }
 
         [FindsBy(How = How.TagName, Using = "app-view-subscription")]

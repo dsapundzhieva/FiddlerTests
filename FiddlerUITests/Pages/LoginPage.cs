@@ -14,7 +14,7 @@ namespace FiddlerUITests.Pages
         public IWebElement EmailField { get; set; }
 
         [FindsBy(How = How.Id, Using = "passwordField")]
-        public IWebElement PassworField { get; set; }
+        public IWebElement PasswordField { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//button[text()='Sign In']")]
         private IWebElement SignInButton { get; set; }
@@ -25,6 +25,5 @@ namespace FiddlerUITests.Pages
             WaitUntil.VisibilityOfElement(driver, By.CssSelector("app-account-overview"));
             WaitUntil.LoaderDisappears(driver);
         }
-
     }
 }

@@ -6,7 +6,7 @@ namespace FiddlerUITests.Tests
     class ApplicationPageTest: BaseTest
     {
         [Test]
-        public void ValidateUserLincenseDetails()
+        public void VerifyUserLincenseDetails()
         {
             ApplicationPage applicationPage = new ApplicationPage(driver);
             var tableHeaders = applicationPage.TableHeaders;

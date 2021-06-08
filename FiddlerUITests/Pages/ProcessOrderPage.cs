@@ -10,7 +10,6 @@ namespace FiddlerUITests.Pages
     {
         public ProcessOrderPage(IWebDriver driver) : base(driver)
         {
-
         }
 
         [FindsBy(How = How.TagName, Using = "app-process-order")]
@@ -18,8 +17,6 @@ namespace FiddlerUITests.Pages
 
         [FindsBy(How = How.CssSelector, Using = "div.select-period")]
         private IWebElement PaymentPeriod { get; set; }
-
-        public bool IsProcessOrderPagePresent() => ProcessOrderElements.Count == 1;
 
         [FindsBy(How = How.CssSelector, Using = "span[title=\"Increase value\"]")]
         private IWebElement IncreaseButton { get; set; }
@@ -35,6 +32,8 @@ namespace FiddlerUITests.Pages
 
         [FindsBy(How = How.XPath, Using = "//button[contains(@title, 'Pay')]")]
         private IWebElement ButtonPay { get; set; }
+
+        public bool IsProcessOrderPagePresent() => ProcessOrderElements.Count == 1;
 
         public bool IsRadioButtonActive(string text) =>
             FindPaymentPeriodRadioByText(text)

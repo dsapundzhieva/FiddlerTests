@@ -6,7 +6,7 @@ namespace FiddlerUITests.Tests
     class ProcessPaymentPageTest: BaseTest
     {
         [Test]
-        public void PayAnnuallyIsDefaulSelectedOnUpdateToPro()
+        public void PayAnnuallyIsDefaultSelectedOnUpdateToPro()
         {
             ApplicationPage applicationPage = new ApplicationPage(driver);
             ProcessOrderPage processOrderPage = new ProcessOrderPage(driver);

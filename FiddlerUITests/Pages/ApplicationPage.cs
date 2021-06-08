@@ -10,7 +10,6 @@ namespace FiddlerUITests.Pages
     {
         public ApplicationPage(IWebDriver driver): base(driver)
         {
-
         }
  
         [FindsBy(How = How.XPath, Using = "//fdl-card[@label='Subscriptions']//thead//th")]

@@ -15,7 +15,7 @@ namespace FiddlerUITests.Tests
         [SetUp]
         public void Setup()
         {
-            driver = new ChromeDriver();
+            driver = new ChromeDriver(@"C:\Dev\FiddlerTests\localDependancies");
             driver.Manage().Window.Maximize();
             driver.Url = testUrl;
 
@@ -26,7 +26,7 @@ namespace FiddlerUITests.Tests
             createAccountPage.AcceptCoockiesButton();
             createAccountPage.GoToSignIn();
             loginPage.EmailField.SendKeys(email);
-            loginPage.PassworField.SendKeys(password);
+            loginPage.PasswordField.SendKeys(password);
             loginPage.SubmitSignInForm();
         }
 
